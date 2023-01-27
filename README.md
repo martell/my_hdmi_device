@@ -41,8 +41,7 @@ colorlighti5:
 make -f Makefile.colorlighti5 prog
 
 tangnano4k:
-`define NANO_4K \
-open prj file nano4k/my_hdmi_nano/my_hdmi_nano.gprj \
+make -f Makefile.nano4k prog
 
 Have fun!
 

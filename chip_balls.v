@@ -136,10 +136,17 @@ clk_tmds
   wire clk_x5;
   wire pclk = clk_27mhz;
   wire tmds_clk = clk_x5;
+`ifdef YOSYS
+  PLLVR pllvr_i(
+    .CLKOUT(clk_x5), //output clkout 135 MHz
+    .CLKIN(clk_27mhz) //input clkin
+  );
+`else /* GOWIN */
   Gowin_PLLVR pllvr_i(
     .clkout(clk_x5), //output clkout 135 MHz
     .clkin(clk_27mhz) //input clkin
   );
+`endif
 `else /* ulx3s */
 wire clk_locked;
 wire [3:0] clocks;

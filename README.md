@@ -43,6 +43,9 @@ make -f Makefile.colorlighti5 prog
 tangnano4k:
 make -f Makefile.nano4k prog
 
+tangnano9k:
+make -f Makefile.nano9k prog
+
 Have fun!
 
 Hirosh

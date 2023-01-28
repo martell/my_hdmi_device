@@ -137,10 +137,17 @@ clk_tmds
   wire pclk = clk_27mhz;
   wire tmds_clk = clk_x5;
 `ifdef YOSYS
+`ifdef NANO_9K
+  rPLL pllvr_i(
+    .CLKOUT(clk_x5), //output clkout 135 MHz
+    .CLKIN(clk_27mhz) //input clkin
+  );
+`else /* nano4k */
   PLLVR pllvr_i(
     .CLKOUT(clk_x5), //output clkout 135 MHz
     .CLKIN(clk_27mhz) //input clkin
   );
+`endif
 `else /* GOWIN */
   Gowin_PLLVR pllvr_i(
     .clkout(clk_x5), //output clkout 135 MHz

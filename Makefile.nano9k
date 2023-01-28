@@ -1,0 +1,29 @@
+BOARD=tangnano9k
+FAMILY=GW1N-9C
+DEVICE=GW1NR-LV9QN88PC6/I5
+PROJ=chip_balls
+
+VERILOG_FILES = tmds_encoder.v \
+								my_vga_clk_generator.v \
+								ball.v \
+								hdmi_device.v \
+								lfsr.v
+
+all: ${PROJ}.fs
+
+%.json: %.v
+	yosys -DYOSYS -DNANO_4K -DNANO_9K -p "synth_gowin -json $@ -top ${PROJ}" ${VERILOG_FILES} $<
+
+${PROJ}_pnr.json: ${PROJ}.json
+	nextpnr-gowin --json ${PROJ}.json --write ${PROJ}_pnr.json --freq 27 --device ${DEVICE} --family ${FAMILY} --cst ${BOARD}.cst
+
+${PROJ}.fs: ${PROJ}_pnr.json
+	gowin_pack -d ${FAMILY} -o ${PROJ}.fs ${PROJ}_pnr.json
+
+prog: ${PROJ}.fs
+	openFPGALoader -b ${BOARD} ${PROJ}.fs -f
+
+clean:
+	rm -f ${PROJ}.fs ${PROJ}_pnr.json ${PROJ}.json
+
+.PHONY: prog clean test

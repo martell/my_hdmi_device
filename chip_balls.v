@@ -279,7 +279,7 @@ assign   led = {8{toogle}};
 `ifdef HX8X
 localparam N = 20;
 `elsif NANO_4K
-localparam N = 35;
+localparam N = 20;
 `else
 localparam N = 35;
 `endif
